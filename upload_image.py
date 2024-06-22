@@ -12,7 +12,7 @@ def preprocess_image(img, target_size):
     return array
 
 def is_valid_image(img):
-    return img.mode == 'RGB'
+    return img.mode == 'RGB' and len(img.getbands()) == 3
 
 def calculate_histogram(image):
     image = cv2.resize(image, (128, 128))  # Ensure consistent size for histogram calculation
