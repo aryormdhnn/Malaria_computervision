@@ -1,6 +1,6 @@
 import streamlit as st
 
-def show_about():
+def show_tutorial():
     st.markdown("<h1 style='text-align: center; color: white;'>Tata Cara Penggunaan Aplikasi</h1>", unsafe_allow_html=True)
     st.markdown(
         """
@@ -18,4 +18,4 @@ def show_about():
     )
     st.image("example.jpg", caption="Contoh gambar yang sudah dipotong", width=200)
 
-show_about()
+show_tutorial()

@@ -2,7 +2,7 @@ import streamlit as st
 from model import download_model, load_malaria_model
 from home import show_home
 from upload_image import show_upload_image
-from about import show_about
+from tutorial import show_tutorial
 from results import show_results
 from authentication import login, logout
 import pickle
@@ -82,7 +82,7 @@ else:
         elif menu == "Hasil Pemeriksaan":
             show_results()
         elif menu == "Tutorial Penggunaan Aplikasi":
-            show_about()
+            show_tutorial()
 
     # Custom footer
     st.markdown("<p style='text-align: center; color: grey;'>© 2024 Malaria Detection App</p>", unsafe_allow_html=True)
