@@ -1,5 +1,5 @@
 import streamlit as st
-from model import download_model, load_malaria_model
+from model import load_malaria_model
 from home import show_home
 from upload_image import show_upload_image
 from tutorial import show_tutorial
@@ -63,26 +63,21 @@ else:
         ("Home", "Unggah Gambar", "Hasil Pemeriksaan", "Tutorial Penggunaan Aplikasi")
     )
 
-    # Download and load model
-    file_id = '17-dxaC04oO95hMExUC_IOoPO0RaRlfkF'
+    # Load model
     model_path = 'Nadam_TTS_Epoch50.h5'
-    error = download_model(file_id, model_path)
-    if error:
-        st.error(error)
-    else:
-        model = load_malaria_model(model_path)
-        infected_histograms = load_histograms('infected_histograms.pkl')
-        uninfected_histograms = load_histograms('uninfected_histograms.pkl')
+    model = load_malaria_model(model_path)
+    infected_histograms = load_histograms('infected_histograms.pkl')
+    uninfected_histograms = load_histograms('uninfected_histograms.pkl')
 
-        # Display sections based on menu selection
-        if menu == "Home":
-            show_home()
-        elif menu == "Unggah Gambar":
-            show_upload_image(model, infected_histograms, uninfected_histograms)
-        elif menu == "Hasil Pemeriksaan":
-            show_results()
-        elif menu == "Tutorial Penggunaan Aplikasi":
-            show_tutorial()
+    # Display sections based on menu selection
+    if menu == "Home":
+        show_home()
+    elif menu == "Unggah Gambar":
+        show_upload_image(model, infected_histograms, uninfected_histograms)
+    elif menu == "Hasil Pemeriksaan":
+        show_results()
+    elif menu == "Tutorial Penggunaan Aplikasi":
+        show_tutorial()
 
     # Custom footer
     st.markdown("<p style='text-align: center; color: grey;'>© 2024 Malaria Detection App</p>", unsafe_allow_html=True)
