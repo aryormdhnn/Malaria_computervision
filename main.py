@@ -7,40 +7,6 @@ from results import show_results
 from login import login, logout
 import pickle
 
-# Custom CSS
-st.markdown(
-    """
-    <style>
-    .main {
-        background-color: #0e1117;
-        color: white;
-    }
-    .stButton>button {
-        background-color: #1f77b4;
-        color: white;
-        border: None;
-        border-radius: 5px;
-        padding: 10px;
-    }
-    .stFileUploader>button {
-        background-color: #1f77b4;
-        color: white;
-        border: None;
-        border-radius: 5px;
-        padding: 10px;
-    }
-    .stProgress>div>div {
-        background-color: #1f77b4;
-    }
-    .stTextInput>div>div>input {
-        color: black;
-        background-color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # Load histograms
 def load_histograms(histogram_file):
     with open(histogram_file, 'rb') as file:
