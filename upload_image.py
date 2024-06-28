@@ -4,6 +4,8 @@ from PIL import Image
 from tensorflow.keras.preprocessing import image
 import cv2
 import pickle
+import json
+import os
 
 def preprocess_image(img, target_size):
     img = img.resize(target_size)
@@ -32,6 +34,16 @@ def compare_histograms(image_hist, reference_histograms):
         if similarity > highest_similarity:
             highest_similarity = similarity
     return highest_similarity
+
+def save_results_to_file(results, file_path='results.json'):
+    with open(file_path, 'w') as f:
+        json.dump(results, f)
+
+def load_results_from_file(file_path='results.json'):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    return []
 
 def show_upload_image(model, infected_histograms, uninfected_histograms):
     st.markdown("<h1 style='text-align: center; color: white;'>Aplikasi Deteksi Malaria</h1>", unsafe_allow_html=True)
@@ -72,12 +84,16 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
                         st.progress(malaria_probability / 100)
 
                         if 'results' not in st.session_state:
-                            st.session_state['results'] = []
+                            st.session_state['results'] = load_results_from_file()
+
                         st.session_state['results'].append({
                             "Image": uploaded_file.name,
                             "Prediction": classification_result,
                             "Probability": f"{malaria_probability:.2f}%"
                         })
+
+                        save_results_to_file(st.session_state['results'])
+
                     else:
                         st.warning("Gambar yang diunggah tidak sesuai dengan gambar sel darah. Silakan unggah gambar yang benar.")
             except Exception as e:

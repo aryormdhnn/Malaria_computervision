@@ -1,4 +1,13 @@
 import streamlit as st
+import pandas as pd
+import json
+import os
+
+def load_results_from_file(file_path='results.json'):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    return []
 
 def show_results():
     st.markdown("<h1 style='text-align: center; color: white;'>Hasil Pemeriksaan</h1>", unsafe_allow_html=True)
@@ -11,7 +20,14 @@ def show_results():
         unsafe_allow_html=True
     )
 
-    if 'results' in st.session_state and st.session_state['results']:
-        st.table(st.session_state['results'])
+    results = load_results_from_file()
+
+    if results:
+        df = pd.DataFrame(results)
+        df.index = df.index + 1  # Start indexing from 1
+        st.table(df)
     else:
         st.markdown("<p style='text-align: center; color: grey;'>Belum ada hasil pemeriksaan.</p>", unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    show_results()

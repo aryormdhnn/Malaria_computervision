@@ -4,7 +4,7 @@ from home import show_home
 from upload_image import show_upload_image
 from tutorial import show_tutorial
 from results import show_results
-from authentication import login, logout
+from login import login, logout
 import pickle
 
 # Custom CSS
