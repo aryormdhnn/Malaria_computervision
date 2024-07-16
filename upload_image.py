@@ -6,6 +6,7 @@ import cv2
 import pickle
 import json
 import os
+from datetime import datetime  # Tambahkan impor ini
 
 def preprocess_image(img, target_size):
     img = img.resize(target_size)
@@ -47,11 +48,10 @@ def load_results_from_file(file_path='results.json'):
 
 def show_upload_image(model, infected_histograms, uninfected_histograms):
     st.markdown("<h1 style='text-align: center; color: Black;'>Aplikasi Deteksi Malaria</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #515455;'>Unggah gambar untuk mendeteksi malaria. Ukuran file maksimum adalah 100 KB.</p>", unsafe_allow_html=True)
-
+    patient_name = st.text_input("Masukkan Nama Pasien:")
     uploaded_file = st.file_uploader("Unggah gambar untuk mendeteksi malaria. Ukuran file maksimum adalah 100 KB.", type=["png", "jpg", "jpeg", "bmp"], help="Limit 100KB per file • PNG, JPG, JPEG, BMP")
 
-    if uploaded_file is not None:
+    if uploaded_file is not None and patient_name:
         file_size = uploaded_file.size
         if file_size > 100 * 1024:  # 100 KB limit
             st.warning("Gambar yang diunggah terlalu besar. Silakan unggah gambar yang lebih kecil dari 100 KB.")
@@ -79,16 +79,22 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
 
                         st.markdown(f"<h3 style='text-align: center; color: black;'>Prediksi: {classification_result}</h3>", unsafe_allow_html=True)
                         st.markdown(f"<p style='text-align: center; color: #515455;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
-
+                        
+                        st.image(uploaded_file, caption="Unggah Gambar", use_column_width=True)
                         st.progress(malaria_probability / 100)
 
                         if 'results' not in st.session_state:
                             st.session_state['results'] = load_results_from_file()
 
+                        # Tambahkan waktu unggah
+                        upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
                         st.session_state['results'].append({
+                            "Patient Name": patient_name,
                             "Image": uploaded_file.name,
                             "Prediction": classification_result,
-                            "Probability": f"{malaria_probability:.2f}%"
+                            "Probability": f"{malaria_probability:.2f}%",
+                            "Upload Time": upload_time  # Tambahkan waktu unggah
                         })
 
                         save_results_to_file(st.session_state['results'])
