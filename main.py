@@ -44,6 +44,3 @@ else:
         show_results()
     elif menu == "Tutorial Penggunaan Aplikasi":
         show_tutorial()
-
-    # Custom footer
-    st.markdown("<p style='text-align: center; color: grey;'>© 2024 Malaria Detection App</p>", unsafe_allow_html=True)

@@ -1,10 +1,10 @@
 import streamlit as st
 
 def show_tutorial():
-    st.markdown("<h1 style='text-align: center; color: white;'>Tata Cara Penggunaan Aplikasi</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: Black;'>Tata Cara Penggunaan Aplikasi</h1>", unsafe_allow_html=True)
     st.markdown(
         """
-        <ol style='color: grey;'>
+        <ol style='color: #515455;'>
             <li>Buka aplikasi.</li>
             <li>Pastikan anda sudah mengcrop gambar malarianya menjadi sebuah eritrosit.</li>
             <li>Jika belum anda harus memotong gambarnya terlebih dahulu sebelum mengguggah gambarnya</li>
@@ -16,6 +16,14 @@ def show_tutorial():
         """,
         unsafe_allow_html=True
     )
-    st.image("example.jpg", caption="Contoh gambar yang sudah dipotong", width=200)
+    
+    # Create two columns for horizontal layout
+    col1, col2 = st.columns(2)
+
+    # Display the images in the columns
+    with col1:
+        st.image("example.jpg", caption="Contoh gambar yang sudah dipotong", width=200)
+    with col2:
+        st.image("malaria.jpg", caption="Contoh gambar yang belum dipotong", width=200)
 
 show_tutorial()

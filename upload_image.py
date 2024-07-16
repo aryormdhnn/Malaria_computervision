@@ -46,8 +46,8 @@ def load_results_from_file(file_path='results.json'):
     return []
 
 def show_upload_image(model, infected_histograms, uninfected_histograms):
-    st.markdown("<h1 style='text-align: center; color: white;'>Aplikasi Deteksi Malaria</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: grey;'>Unggah gambar untuk mendeteksi malaria. Ukuran file maksimum adalah 100 KB.</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: Black;'>Aplikasi Deteksi Malaria</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #515455;'>Unggah gambar untuk mendeteksi malaria. Ukuran file maksimum adalah 100 KB.</p>", unsafe_allow_html=True)
 
     uploaded_file = st.file_uploader("Unggah gambar untuk mendeteksi malaria. Ukuran file maksimum adalah 100 KB.", type=["png", "jpg", "jpeg", "bmp"], help="Limit 100KB per file • PNG, JPG, JPEG, BMP")
 
@@ -77,9 +77,8 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
                             malaria_probability = prediction[0][0] * 100
                             classification_result = 'Malaria' if malaria_probability > 50 else 'Bukan Malaria'
 
-                        st.image(img, caption='Unggah Gambar', use_column_width=True, channels="RGB")
-                        st.markdown(f"<h3 style='text-align: center; color: white;'>Prediksi: {classification_result}</h3>", unsafe_allow_html=True)
-                        st.markdown(f"<p style='text-align: center; color: grey;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='text-align: center; color: black;'>Prediksi: {classification_result}</h3>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='text-align: center; color: #515455;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
 
                         st.progress(malaria_probability / 100)
 
