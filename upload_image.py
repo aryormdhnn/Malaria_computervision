@@ -86,15 +86,15 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
                         if 'results' not in st.session_state:
                             st.session_state['results'] = load_results_from_file()
 
-                        # Tambahkan waktu unggah
+                        
                         upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                         st.session_state['results'].append({
-                            "Patient Name": patient_name,
-                            "Image": uploaded_file.name,
-                            "Prediction": classification_result,
-                            "Probability": f"{malaria_probability:.2f}%",
-                            "Upload Time": upload_time  # Tambahkan waktu unggah
+                            "Nama Pasien": patient_name,
+                            "Gambar": uploaded_file.name,
+                            "Prediksi": classification_result,
+                            "Probabilitas": f"{malaria_probability:.2f}%",
+                            "Tanggal Upload": upload_time  
                         })
 
                         save_results_to_file(st.session_state['results'])
