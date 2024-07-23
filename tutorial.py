@@ -11,7 +11,7 @@ def show_tutorial():
             <li>Pilih menu "Upload Image" untuk mengunggah gambar.</li>
             <li>Unggah gambar sampel darah yang ingin dianalisis.</li>
             <li>Tunggu beberapa saat hingga aplikasi selesai menganalisis gambar.</li>
-            <li>Lihat hasil prediksi pada menu "Results".</li>
+            <li>Lihat hasil prediksi pada menu Hasil Pemeriksaan".</li>
         </ol>
         """,
         unsafe_allow_html=True

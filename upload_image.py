@@ -6,7 +6,7 @@ import cv2
 import pickle
 import json
 import os
-from datetime import datetime  # Tambahkan impor ini
+from datetime import datetime
 
 def preprocess_image(img, target_size):
     img = img.resize(target_size)
@@ -18,7 +18,7 @@ def is_valid_image(img):
     return img.mode == 'RGB' and len(img.getbands()) == 3
 
 def calculate_histogram(image):
-    image = cv2.resize(image, (128, 128))  # Ensure consistent size for histogram calculation
+    image = cv2.resize(image, (128, 128))
     hist = cv2.calcHist([image], [0], None, [256], [0, 256])
     hist = cv2.normalize(hist, hist).flatten()
     return hist
@@ -58,18 +58,18 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
         else:
             try:
                 img = Image.open(uploaded_file)
-                
+
                 if not is_valid_image(img):
                     st.warning("Gambar yang diunggah tidak sesuai dengan karakteristik yang diharapkan dari dataset. Silakan unggah gambar berwarna (RGB).")
                 else:
-                    img_array = preprocess_image(img, target_size=(128, 128))  # Resize image for model input
+                    img_array = preprocess_image(img, target_size=(128, 128))  # Mengubah ukuran gambar untuk masukan model
                     img_gray = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2GRAY)
 
                     image_hist = calculate_histogram(img_gray)
                     infected_similarity = compare_histograms(image_hist, infected_histograms)
                     uninfected_similarity = compare_histograms(image_hist, uninfected_histograms)
 
-                    similarity_threshold = 0.05  # Adjusted this value based on observed similarities
+                    similarity_threshold = 0.1  # Adjusted this value based on observed similarities
 
                     if infected_similarity > similarity_threshold or uninfected_similarity > similarity_threshold:
                         with st.spinner('Mengklasifikasikan...'):
@@ -77,27 +77,30 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
                             malaria_probability = prediction[0][0] * 100
                             classification_result = 'Malaria' if malaria_probability > 50 else 'Bukan Malaria'
 
-                        st.markdown(f"<h3 style='text-align: center; color: black;'>Prediksi: {classification_result}</h3>", unsafe_allow_html=True)
-                        st.markdown(f"<p style='text-align: center; color: #515455;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
-                        
-                        st.image(uploaded_file, caption="Unggah Gambar", use_column_width=True)
-                        st.progress(malaria_probability / 100)
+                            # Jika probabilitas malaria 0%, beri notifikasi tidak valid
+                            if malaria_probability == 0:
+                                st.warning("Gambar tidak valid untuk deteksi malaria.")
+                            else:
+                                st.markdown(f"<h3 style='text-align: center; color: black;'>Prediksi: {classification_result}</h3>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='text-align: center; color: #515455;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
 
-                        if 'results' not in st.session_state:
-                            st.session_state['results'] = load_results_from_file()
+                                st.image(uploaded_file, caption="Unggah Gambar", use_column_width=True)
+                                st.progress(malaria_probability / 100)
 
-                        
-                        upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                if 'results' not in st.session_state:
+                                    st.session_state['results'] = load_results_from_file()
 
-                        st.session_state['results'].append({
-                            "Nama Pasien": patient_name,
-                            "Gambar": uploaded_file.name,
-                            "Prediksi": classification_result,
-                            "Probabilitas": f"{malaria_probability:.2f}%",
-                            "Tanggal Upload": upload_time  
-                        })
+                                upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-                        save_results_to_file(st.session_state['results'])
+                                st.session_state['results'].append({
+                                    "Nama Pasien": patient_name,
+                                    "Gambar": uploaded_file.name,
+                                    "Prediksi": classification_result,
+                                    "Probabilitas": f"{malaria_probability:.2f}%",
+                                    "Tanggal Upload": upload_time
+                                })
+
+                                save_results_to_file(st.session_state['results'])
 
                     else:
                         st.warning("Gambar yang diunggah tidak sesuai dengan gambar sel darah. Silakan unggah gambar yang benar.")
@@ -106,7 +109,7 @@ def show_upload_image(model, infected_histograms, uninfected_histograms):
 
 if __name__ == "__main__":
     from tensorflow.keras.models import load_model
-    model = load_model('Nadam_TTS_Epoch50.h5')  # Load your model here
-    infected_histograms = load_histograms('infected_histograms.pkl')  # Load infected histograms
-    uninfected_histograms = load_histograms('uninfected_histograms.pkl')  # Load uninfected histograms
+    model = load_model('Nadam_TTS_Epoch50.h5')  # Muat model yang telah dilatih
+    infected_histograms = load_histograms('infected_histograms.pkl')  # Memuat histogram Infected yang telah disimpan
+    uninfected_histograms = load_histograms('uninfected_histograms.pkl')  # Memuat histogram Uninfected yang telah disimpan
     show_upload_image(model, infected_histograms, uninfected_histograms)
