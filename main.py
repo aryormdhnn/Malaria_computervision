@@ -36,6 +36,7 @@ else:
     uninfected_histograms = load_histograms('uninfected_histograms.pkl')
 
     # Display sections based on menu selection
+    #test
     if menu == "Home":
         show_home()
     elif menu == "Unggah Gambar":
