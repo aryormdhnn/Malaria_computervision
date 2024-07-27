@@ -18,7 +18,8 @@ def login():
         if username == "admin" and password == "admin":
             st.session_state["authenticated"] = True
             st.success("Login successful")
-            st.experimental_rerun()  # Muat ulang halaman setelah login
+            # Menggunakan st.session_state untuk kontrol status login
+            st.session_state["login_state"] = True
         else:
             st.error("Invalid username or password")
 
@@ -27,4 +28,11 @@ def login():
 def logout():
     st.session_state["authenticated"] = False
     st.success("Logged out successfully")
-    st.experimental_rerun()  # Muat ulang halaman setelah logout
+    # Menggunakan st.session_state untuk kontrol status logout
+    st.session_state["login_state"] = False
+
+# Logika utama untuk menentukan tampilan halaman
+if "authenticated" not in st.session_state or not st.session_state["authenticated"]:
+    login()
+else:
+    logout()
