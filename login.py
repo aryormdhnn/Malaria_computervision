@@ -15,7 +15,8 @@ def login():
     password = st.text_input("", type="password", placeholder="Password")
 
     if st.button("Login"):
-        if username == "admin" and password == "admin":
+        if (username == "admin" and password == "admin") or \
+           (username == "user" and password == "user"):
             st.session_state["authenticated"] = True
             st.success("Login successful")
             # Menggunakan st.session_state untuk kontrol status login
