@@ -26,7 +26,7 @@ else:
     # Sidebar menu
     menu = st.sidebar.radio(
         "Menu",
-        ("Home", "Unggah Gambar", "Hasil Pemeriksaan", "Tutorial Penggunaan Aplikasi")
+        ("Home", "Cek Malaria", "Hasil Pemeriksaan", "Tutorial Penggunaan Aplikasi")
     )
 
     # Load model
@@ -39,7 +39,7 @@ else:
     #test
     if menu == "Home":
         show_home()
-    elif menu == "Unggah Gambar":
+    elif menu == "Cek Malaria":
         show_upload_image(model, infected_histograms, uninfected_histograms)
     elif menu == "Hasil Pemeriksaan":
         show_results()
