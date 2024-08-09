@@ -16,7 +16,7 @@ def login():
 
     if st.button("Login"):
         if (username == "admin" and password == "admin") or \
-           (username == "user1" and password == "password1"):
+                (username == "user" and password == "user"):
             st.session_state["authenticated"] = True
             st.success("Login successful")
             # Menggunakan st.session_state untuk kontrol status login
