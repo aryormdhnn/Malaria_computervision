@@ -32,6 +32,11 @@ def show_results():
     if results:
         df = pd.DataFrame(results)
         df.index = df.index + 1  # Start indexing from 1
+        
+        # Drop the 'Gambar' column
+        if 'Gambar' in df.columns:
+            df = df.drop(columns=['Gambar'])
+        
         st.table(df)
     else:
         st.markdown("<p style='text-align: center; color: grey;'>Belum ada hasil pemeriksaan.</p>", unsafe_allow_html=True)
