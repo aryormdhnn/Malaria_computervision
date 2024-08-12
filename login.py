@@ -6,7 +6,7 @@ def login():
         st.session_state["authenticated"] = False
 
     if st.session_state["authenticated"]:
-        st.write("You are already logged in.")
+        st.write("Anda sudah masuk.")
         return
 
     st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
@@ -15,10 +15,10 @@ def login():
     password = st.text_input("", type="password", placeholder="Password")
 
     if st.button("Login"):
-        if (username == "admin" and password == "admin") or \
+        if (username == "user1" and password == "user1") or \
                 (username == "user" and password == "user"):
             st.session_state["authenticated"] = True
-            st.success("Login successful")
+            st.success("Login Berhasil")
             # Menggunakan st.session_state untuk kontrol status login
             st.session_state["login_state"] = True
         else:
@@ -28,7 +28,7 @@ def login():
 
 def logout():
     st.session_state["authenticated"] = False
-    st.success("Logged out successfully")
+    st.success("Berhasil keluar")
     # Menggunakan st.session_state untuk kontrol status logout
     st.session_state["login_state"] = False
 
